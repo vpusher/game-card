@@ -22,9 +22,8 @@
 <script>
     suite('<game-card>', function() {
         test('instantiating the element works', function() {
-            var element = fixture('game-card'),
-                    isInstanceOf = element instanceof customElements.get('game-card');
-            assert.isTrue(isInstanceOf);
+            var element = fixture('game-card');
+            assert.equal(element.constructor.is, 'game-card');
         });
     });
 </script>

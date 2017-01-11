@@ -304,13 +304,13 @@ Example:
                         /* Defines the family (spade, heart, club or diamond) that will be used for this card. It can be either `♠`, `♥`, `♣` or `♦` */
                         symbol: {
                             type: String,
-                            value: '♠'
+                            value: ''
                         },
 
                         /* Defines the family that will be used for this card. It can be either `a`, `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `j`, `q` or `k` */
                         rank: {
                             type: String,
-                            value: '6'
+                            value: ''
                         },
 
                         /* Tells weither the card show its front or back face. */
@@ -351,7 +351,7 @@ Example:
                 let rank = GameCard.FIGURES.includes(this.rank) && GameCard.RANKS[this.rank],
                         symbol = GameCard.SYMBOLS[this.symbol];
 
-                return rank && symbol ? `/images/${rank}_of_${symbol}s_fr.svg` : '';
+                return rank && symbol ? this.resolveUrl(`images/${rank}_of_${symbol}s_fr.svg`) : '';
             }
 
         }
