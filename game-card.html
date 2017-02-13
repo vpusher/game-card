@@ -337,7 +337,7 @@ Example:
             }
 
             computePositionClass(index, suffix) {
-                var rank = this.rank === 'a' ? 0 : this.rank - 1,
+                var rank = this.rank.toLowerCase() === 'a' ? 0 : this.rank - 1,
                         klass = GameCard.CLASS_MATRIX[rank]
                 klass = klass && klass[index];
                 return `${klass ? klass : 'hidden'} ${suffix}` ;
@@ -348,7 +348,7 @@ Example:
             }
 
             computeFigureImage() {
-                let rank = GameCard.FIGURES.includes(this.rank) && GameCard.RANKS[this.rank],
+                let rank = GameCard.FIGURES.includes(this.rank.toLowerCase()) && GameCard.RANKS[this.rank.toLowerCase()],
                         symbol = GameCard.SYMBOLS[this.symbol];
 
                 return rank && symbol ? this.resolveUrl(`images/${rank}_of_${symbol}s_fr.svg`) : '';
