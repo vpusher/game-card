@@ -68,6 +68,8 @@ See documentation to know more about `symbol` and `rank` attributes.
 
 ## History
 
+* **1.0.2:** allowing uppercase rank.
+* **1.0.1:** enhanced image path resolution.
 * **1.0.0:** initial release.
 
 ## License
