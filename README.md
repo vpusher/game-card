@@ -4,7 +4,7 @@
 
 🃏 Playing game card custom element based on **ES6** and **Polymer 2.0**.
 
-This aims to act as a project sample taking advantage of native [Shadow DOM v1](https://developers.google.com/web/fundamentals/primers/shadowdom/) 
+This aims to act as a project sample taking advantage of native [Shadow DOM v1](https://developers.google.com/web/fundamentals/primers/shadowdom/)
 and [Custom Elements v1](https://developers.google.com/web/fundamentals/primers/customelements/) APIs.
 
 Features:
@@ -68,6 +68,7 @@ See documentation to know more about `symbol` and `rank` attributes.
 
 ## History
 
+* **1.0.3:** allowing hot property updates.
 * **1.0.2:** allowing uppercase rank.
 * **1.0.1:** enhanced image path resolution.
 * **1.0.0:** initial release.

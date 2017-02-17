@@ -301,19 +301,19 @@ Example:
             static get config() {
                 return {
                     properties: {
-                        /* Defines the family (spade, heart, club or diamond) that will be used for this card. It can be either `♠`, `♥`, `♣` or `♦` */
+                        /* Defines the card's suit (spade, heart, club or diamond). It can be either `♠`, `♥`, `♣` or `♦` */
                         symbol: {
                             type: String,
                             value: ''
                         },
 
-                        /* Defines the family that will be used for this card. It can be either `a`, `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `j`, `q` or `k` */
+                        /* Defines the card's number/level. It can be either `a`, `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `j`, `q` or `k` */
                         rank: {
                             type: String,
                             value: ''
                         },
 
-                        /* Tells weither the card show its front or back face. */
+                        /* Tells whether the card show its front or back face. */
                         unrevealed: {
                             type: Boolean,
                             value: false,
@@ -337,9 +337,9 @@ Example:
             }
 
             computePositionClass(index, suffix, rank) {
-                var r = rank.toLowerCase() === 'a' ? 0 : rank - 1,
-                        klass = GameCard.CLASS_MATRIX[r]
+                var klass = GameCard.CLASS_MATRIX[rank.toLowerCase() === 'a' ? 0 : rank - 1];
                 klass = klass && klass[index];
+
                 return `${klass ? klass : 'hidden'} ${suffix}` ;
             }
 
@@ -348,10 +348,10 @@ Example:
             }
 
             computeFigureImage(rank, symbol) {
-                var r = GameCard.FIGURES.includes(rank.toLowerCase()) && GameCard.RANKS[rank.toLowerCase()],
-                        s = GameCard.SYMBOLS[symbol];
+                var rankName = GameCard.FIGURES.includes(rank.toLowerCase()) && GameCard.RANKS[rank.toLowerCase()],
+                    symbolName = GameCard.SYMBOLS[symbol];
 
-                return r && s ? this.resolveUrl(`images/${r}_of_${s}s_fr.svg`) : '';
+                return rankName && symbolName ? this.resolveUrl(`images/${rankName}_of_${symbolName}s_fr.svg`) : '';
             }
 
         }
