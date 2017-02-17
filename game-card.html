@@ -203,17 +203,17 @@ Example:
                 <div id="front">
                     <span class="rank">[[upper(rank)]]<br/><span class="rank-symbol">[[symbol]]</span></span>
                     <span class="rank reversed">[[upper(rank)]]<br/><span class="rank-symbol">[[symbol]]</span></span>
-                    <span class$="[[computePositionClass(0, 'symbol')]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(1, 'symbol')]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(2, 'symbol')]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(3, 'symbol')]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(4, 'symbol')]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(5, 'reversed symbol')]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(6, 'reversed symbol')]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(7, 'reversed symbol')]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(8, 'reversed symbol')]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(9, 'reversed symbol')]]">[[symbol]]</span>
-                    <img class="figure" src="[[computeFigureImage()]]">
+                    <span class$="[[computePositionClass(0, 'symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[computePositionClass(1, 'symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[computePositionClass(2, 'symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[computePositionClass(3, 'symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[computePositionClass(4, 'symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[computePositionClass(5, 'reversed symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[computePositionClass(6, 'reversed symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[computePositionClass(7, 'reversed symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[computePositionClass(8, 'reversed symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[computePositionClass(9, 'reversed symbol', rank)]]">[[symbol]]</span>
+                    <img class="figure" src="[[computeFigureImage(rank, symbol)]]">
                 </div>
                 <div id="back">
                     <div id="back-draw"></div>
@@ -301,19 +301,19 @@ Example:
             static get config() {
                 return {
                     properties: {
-                        /* Defines the family (spade, heart, club or diamond) that will be used for this card. It can be either `♠`, `♥`, `♣` or `♦` */
+                        /* Defines the card's suit (spade, heart, club or diamond). It can be either `♠`, `♥`, `♣` or `♦` */
                         symbol: {
                             type: String,
                             value: ''
                         },
 
-                        /* Defines the family that will be used for this card. It can be either `a`, `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `j`, `q` or `k` */
+                        /* Defines the card's number/level. It can be either `a`, `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `j`, `q` or `k` */
                         rank: {
                             type: String,
                             value: ''
                         },
 
-                        /* Tells weither the card show its front or back face. */
+                        /* Tells whether the card show its front or back face. */
                         unrevealed: {
                             type: Boolean,
                             value: false,
@@ -336,10 +336,10 @@ Example:
                 return token ? token.toUpperCase() : '';
             }
 
-            computePositionClass(index, suffix) {
-                var rank = this.rank.toLowerCase() === 'a' ? 0 : this.rank - 1,
-                        klass = GameCard.CLASS_MATRIX[rank]
+            computePositionClass(index, suffix, rank) {
+                var klass = GameCard.CLASS_MATRIX[rank.toLowerCase() === 'a' ? 0 : rank - 1];
                 klass = klass && klass[index];
+
                 return `${klass ? klass : 'hidden'} ${suffix}` ;
             }
 
@@ -347,11 +347,11 @@ Example:
                 return GameCard.COLOR_CLASSES[symbol];
             }
 
-            computeFigureImage() {
-                let rank = GameCard.FIGURES.includes(this.rank.toLowerCase()) && GameCard.RANKS[this.rank.toLowerCase()],
-                        symbol = GameCard.SYMBOLS[this.symbol];
+            computeFigureImage(rank, symbol) {
+                var rankName = GameCard.FIGURES.includes(rank.toLowerCase()) && GameCard.RANKS[rank.toLowerCase()],
+                    symbolName = GameCard.SYMBOLS[symbol];
 
-                return rank && symbol ? this.resolveUrl(`images/${rank}_of_${symbol}s_fr.svg`) : '';
+                return rankName && symbolName ? this.resolveUrl(`images/${rankName}_of_${symbolName}s_fr.svg`) : '';
             }
 
         }
