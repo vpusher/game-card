@@ -198,22 +198,22 @@ Example:
 
         </style>
 
-        <div id="container" class$="[[computeColorClass(symbol)]]" on-click="flip">
+        <div id="container" class$="[[_computeColorClass(symbol)]]">
             <div id="flipper">
                 <div id="front">
                     <span class="rank">[[upper(rank)]]<br/><span class="rank-symbol">[[symbol]]</span></span>
                     <span class="rank reversed">[[upper(rank)]]<br/><span class="rank-symbol">[[symbol]]</span></span>
-                    <span class$="[[computePositionClass(0, 'symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(1, 'symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(2, 'symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(3, 'symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(4, 'symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(5, 'reversed symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(6, 'reversed symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(7, 'reversed symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(8, 'reversed symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[computePositionClass(9, 'reversed symbol', rank)]]">[[symbol]]</span>
-                    <img class="figure" src="[[computeFigureImage(rank, symbol)]]">
+                    <span class$="[[_computePositionClass(0, 'symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[_computePositionClass(1, 'symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[_computePositionClass(2, 'symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[_computePositionClass(3, 'symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[_computePositionClass(4, 'symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[_computePositionClass(5, 'reversed symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[_computePositionClass(6, 'reversed symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[_computePositionClass(7, 'reversed symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[_computePositionClass(8, 'reversed symbol', rank)]]">[[symbol]]</span>
+                    <span class$="[[_computePositionClass(9, 'reversed symbol', rank)]]">[[symbol]]</span>
+                    <img class="figure" src="[[_computeFigureImage(rank, symbol)]]">
                 </div>
                 <div id="back">
                     <div id="back-draw"></div>
@@ -298,34 +298,47 @@ Example:
                 ];
             }
 
-            static get config() {
+            static get properties() {
                 return {
-                    properties: {
-                        /* Defines the card's suit (spade, heart, club or diamond). It can be either `♠`, `♥`, `♣` or `♦` */
-                        symbol: {
-                            type: String,
-                            value: ''
-                        },
-
-                        /* Defines the card's number/level. It can be either `a`, `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `j`, `q` or `k` */
-                        rank: {
-                            type: String,
-                            value: ''
-                        },
-
-                        /* Tells whether the card show its front or back face. */
-                        unrevealed: {
-                            type: Boolean,
-                            value: false,
-                            reflectToAttribute: true
-                        }
+                    /* Defines the card's suit (spade, heart, club or diamond). It can be either `♠`, `♥`, `♣` or `♦` */
+                    symbol: {
+                        type: String,
+                        value: '',
+                        reflectToAttribute: true
                     },
-                    observers: []
+
+                    /* Defines the card's number/level. It can be either `a`, `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `j`, `q` or `k` */
+                    rank: {
+                        type: String,
+                        value: '',
+                        reflectToAttribute: true
+                    },
+
+                    /* Tells whether the card show its front or back face. */
+                    unrevealed: {
+                        type: Boolean,
+                        value: false,
+                        reflectToAttribute: true
+                    },
+
+                    /* Tells whether the card can be flipped by clicking on it. */
+                    flippable: {
+                        type: Boolean,
+                        value: false,
+                        reflectToAttribute: true
+                    }
                 }
             }
 
+            static get observers() {
+                return [
+                  '_flippableChanged(flippable)'
+                ]
+              }
+
             constructor() {
                 super();
+                this._flip = this.flip.bind(this);
             }
 
             flip() {
@@ -336,22 +349,30 @@ Example:
                 return token ? token.toUpperCase() : '';
             }
 
-            computePositionClass(index, suffix, rank) {
+            _computePositionClass(index, suffix, rank) {
                 var klass = GameCard.CLASS_MATRIX[rank.toLowerCase() === 'a' ? 0 : rank - 1];
                 klass = klass && klass[index];
 
                 return `${klass ? klass : 'hidden'} ${suffix}` ;
             }
 
-            computeColorClass(symbol) {
+            _computeColorClass(symbol) {
                 return GameCard.COLOR_CLASSES[symbol];
             }
 
-            computeFigureImage(rank, symbol) {
+            _computeFigureImage(rank, symbol) {
                 var rankName = GameCard.FIGURES.includes(rank.toLowerCase()) && GameCard.RANKS[rank.toLowerCase()],
                     symbolName = GameCard.SYMBOLS[symbol];
 
                 return rankName && symbolName ? this.resolveUrl(`images/${rankName}_of_${symbolName}s_fr.svg`) : '';
+            }
+
+            _flippableChanged (flippable) {
+                if (flippable) {
+                    this.$.container.addEventListener('click', this._flip);
+                } else {
+                    this.$.container.removeEventListener('click', this._flip);
+                }
             }
 
         }

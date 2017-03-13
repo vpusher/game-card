@@ -25,10 +25,9 @@ Example:
 ```
 -->
 ```html
-<game-card symbol="♠" rank="a"></game-card>
-<game-card symbol="♥" rank="3" unrevealed></game-card>
-<game-card symbol="♣" rank="9"></game-card>
-<game-card symbol="♦" rank="k"></game-card>
+<game-card symbol="♠" rank="a" flippable></game-card>
+<game-card symbol="♥" rank="3" flippable></game-card>
+<game-card symbol="♦" rank="k" flippable unrevealed></game-card>
 ```
 
 Screenshot:
@@ -68,6 +67,7 @@ See documentation to know more about `symbol` and `rank` attributes.
 
 ## History
 
+* **1.0.4:** introducing flippable property.
 * **1.0.3:** allowing hot property updates.
 * **1.0.2:** allowing uppercase rank.
 * **1.0.1:** enhanced image path resolution.

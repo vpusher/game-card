@@ -13,8 +13,9 @@
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../game-card.html">
 
-    <style is="custom-style" include="demo-pages-shared-styles">
-    </style>
+    <custom-style>
+        <style is="custom-style" include="demo-pages-shared-styles"></style>
+    </custom-style>
 </head>
 <body>
 
@@ -23,18 +24,25 @@
     <demo-snippet>
         <template>
             <game-card symbol="♠" rank="a"></game-card>
-            <game-card symbol="♥" rank="3"></game-card>
-            <game-card symbol="♣" rank="9"></game-card>
             <game-card symbol="♦" rank="k"></game-card>
         </template>
     </demo-snippet>
 </div>
 
 <div class="vertical-section-container centered">
-    <h3>Unrevealed game-card</h3>
+    <h3>Flippable game-card</h3>
     <demo-snippet>
         <template>
-            <game-card symbol="♠" rank="a" unrevealed></game-card>
+            <game-card symbol="♥" rank="a" flippable></game-card>
+        </template>
+    </demo-snippet>
+</div>
+
+<div class="vertical-section-container centered">
+    <h3>Unrevealed flippable game-card</h3>
+    <demo-snippet>
+        <template>
+            <game-card symbol="♠" rank="a" flippable unrevealed></game-card>
         </template>
     </demo-snippet>
 </div>
