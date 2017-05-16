@@ -40,20 +40,26 @@ Example:
                 perspective: 1000px;
             }
 
-            #flipper {
-                /* flip speed goes here */
-                transition: transform 0.6s;
-                transform-style: preserve-3d;
-                position: relative;
+
+            #front, #back {
+              /* flip speed goes here */
+              transition: transform 0.6s;
+            }
+
+            #back {
+              /* back, initially hidden pane */
+              transform: rotateY(-180deg);
             }
 
             /* flip the pane when hovered */
-            :host([unrevealed]) #flipper,
-            :host([unrevealed]) #flipper {
+            :host([unrevealed]) #back {
+                transform: rotateY(0deg);
+            }
+            :host([unrevealed]) #front {
                 transform: rotateY(180deg);
             }
 
-            #front, #back, #flipper {
+            #front, #back {
                 width: 100%;
                 height: 100%;
             }
@@ -68,10 +74,7 @@ Example:
                 top: 0;
                 left: 0;
             }
-
             #back {
-                /* back, initially hidden pane */
-                transform: rotateY(180deg);
                 padding: 10px;
             }
 
@@ -107,8 +110,8 @@ Example:
             }
 
             .rank.reversed {
-                top: initial;
-                left: initial;
+                top: auto;
+                left: auto;
                 right: 12px;
                 bottom: 12px;
             }
@@ -199,25 +202,23 @@ Example:
         </style>
 
         <div id="container" class$="[[_computeColorClass(symbol)]]">
-            <div id="flipper">
-                <div id="front">
-                    <span class="rank">[[upper(rank)]]<br/><span class="rank-symbol">[[symbol]]</span></span>
-                    <span class="rank reversed">[[upper(rank)]]<br/><span class="rank-symbol">[[symbol]]</span></span>
-                    <span class$="[[_computePositionClass(0, 'symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[_computePositionClass(1, 'symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[_computePositionClass(2, 'symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[_computePositionClass(3, 'symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[_computePositionClass(4, 'symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[_computePositionClass(5, 'reversed symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[_computePositionClass(6, 'reversed symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[_computePositionClass(7, 'reversed symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[_computePositionClass(8, 'reversed symbol', rank)]]">[[symbol]]</span>
-                    <span class$="[[_computePositionClass(9, 'reversed symbol', rank)]]">[[symbol]]</span>
-                    <img class="figure" src="[[_computeFigureImage(rank, symbol)]]">
-                </div>
-                <div id="back">
-                    <div id="back-draw"></div>
-                </div>
+            <div id="front">
+                <span class="rank">[[upper(rank)]]<br/><span class="rank-symbol">[[symbol]]</span></span>
+                <span class="rank reversed">[[upper(rank)]]<br/><span class="rank-symbol">[[symbol]]</span></span>
+                <span class$="[[_computePositionClass(0, 'symbol', rank)]]">[[symbol]]</span>
+                <span class$="[[_computePositionClass(1, 'symbol', rank)]]">[[symbol]]</span>
+                <span class$="[[_computePositionClass(2, 'symbol', rank)]]">[[symbol]]</span>
+                <span class$="[[_computePositionClass(3, 'symbol', rank)]]">[[symbol]]</span>
+                <span class$="[[_computePositionClass(4, 'symbol', rank)]]">[[symbol]]</span>
+                <span class$="[[_computePositionClass(5, 'reversed symbol', rank)]]">[[symbol]]</span>
+                <span class$="[[_computePositionClass(6, 'reversed symbol', rank)]]">[[symbol]]</span>
+                <span class$="[[_computePositionClass(7, 'reversed symbol', rank)]]">[[symbol]]</span>
+                <span class$="[[_computePositionClass(8, 'reversed symbol', rank)]]">[[symbol]]</span>
+                <span class$="[[_computePositionClass(9, 'reversed symbol', rank)]]">[[symbol]]</span>
+                <img class="figure" src="[[_computeFigureImage(rank, symbol)]]">
+            </div>
+            <div id="back">
+                <div id="back-draw"></div>
             </div>
         </div>
 
@@ -361,7 +362,7 @@ Example:
             }
 
             _computeFigureImage(rank, symbol) {
-                var rankName = GameCard.FIGURES.includes(rank.toLowerCase()) && GameCard.RANKS[rank.toLowerCase()],
+                var rankName = GameCard.FIGURES.indexOf(rank.toLowerCase()) != -1 && GameCard.RANKS[rank.toLowerCase()],
                     symbolName = GameCard.SYMBOLS[symbol];
 
                 return rankName && symbolName ? this.resolveUrl(`images/${rankName}_of_${symbolName}s_fr.svg`) : '';
