@@ -67,6 +67,7 @@ See documentation to know more about `symbol` and `rank` attributes.
 
 ## History
 
+* **1.0.6:** Update documentation for webcomponents.org compatibility.
 * **1.0.5:** IE11 support.
 * **1.0.4:** introducing flippable property.
 * **1.0.3:** allowing hot property updates.
